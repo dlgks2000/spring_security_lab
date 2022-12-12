@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    include:
+      - dev
+
+---
+#dev
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    # 설치된 H2 DB와 연결 URL
+    url: jdbc:h2:mem:mydb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS test
+    # 접속을 위한 드라이버
+    driver-class-name: org.h2.Driver
+    # springboot 2.4 부터는 username이 꼭 있어야합니다. 없으면 에러가 발생합니다.
+    username: sa
+    initialization-mode: always
+#    schema: classpath:h2/schema.sql
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    properties:
+        show_sql: true
+        format_sql: true
+
+    hibernate:
+      ddl-auto: create
