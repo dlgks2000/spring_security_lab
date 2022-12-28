@@ -1,13 +1,9 @@
 package com.slab.spring_security_lab.configuration;
 
-import com.slab.spring_security_lab.domain.auth.JwtProvider;
-import com.slab.spring_security_lab.security.provider.CustomUserDetailsService;
 import com.slab.spring_security_lab.security.provider.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -28,11 +24,9 @@ public class SpringSecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(new JwtProvider()), UsernamePasswordAuthenticationFilter.class)
-                    .authorizeHttpRequests()
-                    .requestMatchers("/user/**").permitAll()
-                .and()
-                    .formLogin();
+                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests()
+                .requestMatchers("/**").permitAll();
 
         return http.build();
     }
@@ -42,7 +36,8 @@ public class SpringSecurityConfig {
         return web -> {
             web.ignoring()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                    .requestMatchers("/notice");
+                    .requestMatchers("/notice", "/health", "/info", "/actuator/**")
+            ;
         };
     }
 

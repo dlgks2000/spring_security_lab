@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<div>
+    <div>
+        <input type="number" id="x0" value="10"/>
+        <input type="number" id="y0" value="10" />
+    </div>
+    <div>
+        <input type="number" id="x1" value="60" />
+        <input type="number" id="y1" value="10" />
+    </div>
+    <div>
+        <input type="number" id="x2" value="110" />
+        <input type="number" id="y2" value="110" />
+    </div>
+    <input type="number" id="radius" value="100" />
+</div>
+    <button onclick="drawRect()" >draw rect</button>
+    <button onclick="drawArcTo()" >draw arcTo</button>
+    <button onclick="clear1()" >clear</button>
+<div>
+
+</div>
+
+<canvas id="myCanvas" style="width: 100%; height: 100%"></canvas>
+
+
+
+</body>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    window.onload = function(){
+    }
+
+    var x0_in = document.getElementById("x0");
+    var y0_in = document.getElementById("y0");
+    var x1_in = document.getElementById("x1");
+    var y1_in = document.getElementById("y1");
+    var x2_in = document.getElementById("x2");
+    var y2_in = document.getElementById("y2");
+    var radius_in = document.getElementById("radius");
+
+    function drawRect(){
+        console.log('draw rect');
+
+        let x0 = x0_in.value;
+        let y0 = y0_in.value;
+        let x1 = x1_in.value;
+        let y1 = y1_in.value;
+
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(x0, y0, x1, y1);
+    }
+
+    function drawArcTo(){
+        console.log('draw arcTo');
+
+        let x0 = x0_in.value;
+        let y0 = y0_in.value;
+        let x1 = x1_in.value;
+        let y1 = y1_in.value;
+        let x2 = x2_in.value;
+        let y2 = y2_in.value;
+        radius = radius_in.value;
+
+        console.log('x1: '+x1+', y1: '+y1+', radius: '+radius);
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1.5;
+        ctx.moveTo(x0, y0);
+        ctx.arcTo(x1, y1 , x2, y2, radius);
+        ctx.stroke();
+
+        ctx.font = "5px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("(x0, y0)", x0, y0);
+        ctx.fillText("(x1, y1)", x1, y1);
+        ctx.fillText("(x2, y2)", x2, y2);
+    }
+
+    function clear1() {
+        console.log('clear');
+        console.log('clear : '+canvas.width+', '+canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+</script>
+</html>
